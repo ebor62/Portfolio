@@ -1,11 +1,3 @@
-<!--
-  Nathan Ferhart Portfolio – Modern, Minimal, Responsive, Animated
-  HTML, CSS, and JS only. No React, no Tailwind, no Framer Motion.
-  Clean, accessible, performant, and professional.
-  All animations are CSS (with JS for scroll/fade-in and confirmation).
-  Responsive, dark mode, steel/graphite/white accent.
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Nathan Ferhart – Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700&family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --blue: #60A5FA;
@@ -29,6 +21,11 @@
             --shadow: 0 8px 32px 0 #1e293b44;
             --transition: 0.4s cubic-bezier(.4,0,.2,1);
             --font: 'Inter', system-ui, sans-serif;
+            --glow-primary: rgba(56, 189, 248, 0.7);
+            --glow-secondary: rgba(94, 234, 212, 0.6);
+            --neon-pink: rgba(236, 72, 153, 0.8);
+            --neon-blue: rgba(59, 130, 246, 0.8);
+            --neon-green: rgba(16, 185, 129, 0.8);
         }
         html, body {
             background: var(--bg);
@@ -44,6 +41,31 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            font-family: "Exo 2", "Inter", system-ui, sans-serif;
+            background: radial-gradient(circle at center, #0f172a, #020617);
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Background grid effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 60s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0px 0px; opacity: 0.5; }
+            50% { opacity: 0.2; }
+            100% { background-position: 40px 40px; opacity: 0.5; }
         }
         .container {
             width: 100%;
@@ -51,6 +73,8 @@
             margin: 0 auto;
             padding-left: 2rem;
             padding-right: 2rem;
+            position: relative;
+            z-index: 2;
         }
         section {
             position: relative;
@@ -152,308 +176,222 @@
             .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
             .skills-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
-        /* Animations */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(32px);
-            transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
-        }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s cubic-bezier(.4,0,.2,1), background 0.35s cubic-bezier(.4,0,.2,1), z-index 0.2s;
-            will-change: transform, box-shadow, background;
-            border: 1.5px solid #232e41;
-            z-index: 1;
+        /* --- Carousel Animation Styles (movement only, no neon/progress) --- */
+        .carousel-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
             position: relative;
-        }
-        .card:hover, .card:focus-visible {
-            transform: translateY(-8px) scale(1.04);
-            box-shadow: 0 16px 48px 0 #1e293b99;
-            background: var(--bg-card-alt);
-            border-color: var(--blue);
+            perspective: 2000px;
+            padding: 3rem 0;
             z-index: 10;
         }
-        .tile {
-            background: var(--bg-card);
-            border-radius: 0.75rem;
-            transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s cubic-bezier(.4,0,.2,1), background 0.35s cubic-bezier(.4,0,.2,1);
-            will-change: transform, box-shadow, background;
-            border: 1.5px solid #232e41;
-        }
-        .tile:hover, .tile:focus-visible {
-            transform: translateY(-6px) scale(1.08);
-            box-shadow: 0 8px 32px 0 #1e293b44;
-            background: var(--bg-card-alt);
-            border-color: var(--blue);
-        }
-        .cta-btn {
-            background: linear-gradient(90deg, var(--blue) 0%, var(--blue-dark) 100%);
-            background-size: 200% 200%;
-            background-position: 0% 50%;
-            color: var(--white);
-            border: none;
-            border-radius: 0.75rem;
-            font-size: 1.15rem;
-            font-weight: 600;
-            padding: 0.75rem 1.75rem;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: background-position 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
-            outline: none;
-            letter-spacing: 0.01em;
-        }
-        .cta-btn:hover, .cta-btn:focus-visible {
-            background-position: 100% 50%;
-            box-shadow: 0 12px 40px 0 #1e293b66;
-        }
-        /* Contact */
-        .contact-form {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 2rem;
+        .carousel-track {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            border: 1.5px solid #232e41;
-        }
-        .contact-form input,
-        .contact-form textarea {
-            background: var(--bg-alt);
-            border: none;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            color: var(--white);
-            font-size: 1rem;
-            font-family: var(--font);
-            outline: none;
-            transition: box-shadow 0.2s;
-            border: 1.2px solid #232e41;
-        }
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            box-shadow: 0 0 0 2px var(--blue);
-            border-color: var(--blue);
-        }
-        .contact-confirm {
-            color: #4ade80;
-            text-align: center;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
-            pointer-events: none;
-        }
-        .contact-confirm.visible {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-        /* Socials */
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .socials a {
-            color: var(--steel);
-            transition: color 0.2s;
-            display: inline-flex;
-            align-items: center;
-        }
-        .socials a:hover, .socials a:focus-visible {
-            color: var(--blue);
-        }
-        /* Skill grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.2rem;
-            max-width: 36rem;
-            margin-top: 0.5rem;
-        }
-        @media (min-width: 600px) {
-            .skills-grid { grid-template-columns: repeat(8, 1fr); }
-        }
-        /* Carousel styles and animations */
-        .carousel-wrapper {
-            position: relative;
-            max-width: 100vw;
-            margin: 0 auto;
-            padding: 0 2.5rem;
-            z-index: 0;
-            overflow: visible;
-            height: 29rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .carousel-cards {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
+            transition: transform 0.75s cubic-bezier(0.21, 0.61, 0.35, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
         }
         .carousel-card {
-            opacity: 0.4;
-            transform: scale(0.8);
-            transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1), left 0.4s cubic-bezier(.4,0,.2,1);
-            margin: 0 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20rem;
-            min-width: 20rem;
-            max-width: 20rem;
-            height: 25rem;
-            pointer-events: auto;
-            box-shadow: var(--shadow);
+            min-width: 320px;
+            max-width: 320px;
+            margin: 0 25px;
             background: var(--bg-card);
             border-radius: var(--radius);
-            border: 1.5px solid #232e41;
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem;
-            z-index: 1;
-            will-change: transform, opacity, left;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 #1e293b44;
+            transition: all 0.6s cubic-bezier(0.21, 0.61, 0.35, 1);
+            transform-origin: center center;
+            position: relative;
+            border: 1px solid var(--graphite);
+            color: var(--white);
         }
-        .carousel-card.active {
+        .carousel-card:not(.is-active) {
+            transform: scale(0.8) rotateY(35deg) translateZ(-100px);
+            opacity: 0.45;
+            filter: saturate(0.6) brightness(0.7);
+        }
+        .carousel-card.is-prev {
+            transform-origin: right center;
+            transform: scale(0.75) rotateY(45deg) translateX(-80px) translateZ(-150px);
+        }
+        .carousel-card.is-next {
+            transform-origin: left center;
+            transform: scale(0.75) rotateY(-45deg) translateX(80px) translateZ(-150px);
+        }
+        .carousel-card.is-active {
+            transform: scale(1) rotateY(0) translateZ(0);
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            z-index: 10;
-            box-shadow: 0 16px 48px 0 #1e293b99;
+            z-index: 20;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow-primary),
+            inset 0 0 20px rgba(56, 189, 248, 0.1);
+            filter: saturate(1.1) brightness(1.05);
+        }
+        .card-image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--graphite);
             background: var(--bg-card-alt);
-            border-color: var(--blue);
-            cursor: default;
         }
-        .carousel-card.prev {
-            opacity: 0.7;
-            transform: translate(-120%, -50%) scale(0.9);
-            z-index: 2;
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.5s ease;
+            background: var(--bg-card-alt);
         }
-        .carousel-card.next {
-            opacity: 0.7;
-            transform: translate(20%, -50%) scale(0.9);
-            z-index: 2;
+        .carousel-card.is-active .card-image {
+            transform: scale(1.05);
         }
-        .carousel-card.far {
-            opacity: 0;
-            pointer-events: none;
-            z-index: 0;
+        .card-content {
+            padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+            color: var(--white);
         }
-        /* Animation classes for intuitive sliding */
-        .carousel-card.slide-left-in {
-            animation: slideLeftIn 0.4s cubic-bezier(.4,0,.2,1);
+        .card-title {
+            font-family: "Orbitron", sans-serif;
+            margin-bottom: 0.75rem;
+            letter-spacing: 1px;
+            font-size: 1.25rem;
+            color: var(--blue);
+            display: block;
         }
-        .carousel-card.slide-left-out {
-            animation: slideLeftOut 0.4s cubic-bezier(.4,0,.2,1);
+        .card-description {
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: var(--steel);
+            font-weight: 400;
+            margin-bottom: 1.1rem;
         }
-        .carousel-card.slide-right-in {
-            animation: slideRightIn 0.4s cubic-bezier(.4,0,.2,1);
+        .tech-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 41, 59, 0.92);
+            backdrop-filter: blur(6px);
+            padding: 0.75rem 1.5rem 0.75rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.21, 0.61, 0.35, 1);
+            z-index: 25;
+            border-top: 1px solid var(--graphite);
         }
-        .carousel-card.slide-right-out {
-            animation: slideRightOut 0.4s cubic-bezier(.4,0,.2,1);
+        .carousel-card.is-active:hover .tech-details {
+            transform: translateY(0);
         }
-        @keyframes slideLeftIn {
-            0% { transform: translate(120%, -50%) scale(0.9); opacity: 0.7; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        .tech-tag {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            background: var(--bg-card-alt);
+            border: 1px solid var(--graphite);
+            border-radius: 4px;
+            color: var(--steel);
         }
-        @keyframes slideLeftOut {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-220%, -50%) scale(0.8); opacity: 0.4; }
+        .is-far-next {
+            transform: scale(0.8) rotateY(-45deg) translateZ(-100px) !important;
         }
-        @keyframes slideRightIn {
-            0% { transform: translate(-220%, -50%) scale(0.9); opacity: 0.7; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-        @keyframes slideRightOut {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(120%, -50%) scale(0.8); opacity: 0.4; }
-        }
-        .carousel-card:focus {
-            outline: 2px solid var(--blue);
-            outline-offset: 2px;
-        }
-        .carousel-arrow {
+        .carousel-button {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            z-index: 20;
-            background: var(--bg-card-alt);
-            border: none;
-            border-radius: 50%;
-            width: 2.7rem;
-            height: 2.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 12px 0 #1e293b44;
+            background: rgba(30, 41, 59, 0.7);
             color: var(--blue);
+            border: 1px solid var(--graphite);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-            font-size: 1.5rem;
-            opacity: 0.92;
+            z-index: 20;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.12);
         }
-        .carousel-arrow:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        .carousel-button:hover {
+            background-color: var(--blue-dark);
+            color: var(--white);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 20px var(--blue);
         }
-        .carousel-arrow.left {
-            left: 0.2rem;
+        .carousel-button:active {
+            transform: translateY(-50%) scale(0.95);
         }
-        .carousel-arrow.right {
-            right: 0.2rem;
+        .carousel-button.prev { left: -24px; }
+        .carousel-button.next { right: -24px; }
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
         }
-        @media (max-width: 1000px) {
-            .carousel-card { margin: 0; transform: scale(0.9); }
+        .indicator {
+            width: 24px;
+            height: 4px;
+            background: var(--graphite);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .indicator.active {
+            background: var(--blue);
+            box-shadow: 0 0 10px var(--blue);
+        }
+        /* --- Custom styles for blue CTA button and horizontal skills --- */
+        .cta-btn {
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 0.85rem 2.2rem;
+            box-shadow: 0 4px 24px 0 #60a5fa33;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .cta-btn:hover, .cta-btn:focus {
+            background: #2563eb;
+            color: #fff;
+            box-shadow: 0 0 0 4px #60a5fa44;
+            outline: none;
+        }
+        .skills-grid {
+            display: flex !important;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 1.2rem;
+        }
+        .tile {
+            min-width: 70px;
+            max-width: 90px;
+            flex: 0 0 auto;
         }
         @media (max-width: 700px) {
-            .carousel-arrow {
-                width: 2.1rem;
-                height: 2.1rem;
-                font-size: 1.1rem;
+            .skills-grid {
+                flex-wrap: wrap;
+                gap: 0.7rem;
+                justify-content: center;
             }
-            .carousel-wrapper {
-                padding: 0 0.5rem;
-            }
-            .carousel-cards {
-                max-width: 98vw;
-            }
-            .carousel-card {
-                width: 98vw;
-                min-width: 98vw;
-                max-width: 98vw;
+            .tile {
+                min-width: 60px;
+                max-width: 80px;
             }
         }
-        .tag {
-            display: inline-block;
-            font-size: 0.85rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            margin-right: 0.25rem;
-            margin-bottom: 0.25rem;
-            background: var(--blue-dark);
-            color: var(--white);
-            letter-spacing: 0.01em;
+        @media (max-width: 600px) {
+            .skills-grid {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
+            }
         }
-        .tag.react { background: #2563eb; }
-        .tag.docker, .tag['framer-motion'] { background: #1e40af; }
-        .tag.node, .tag.parallax, .tag.theming { background: #334155; }
-        .tag.design, .tag.fabrication, .tag.cnc { background: #334155; }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
     </style>
 </head>
 <body>
@@ -542,16 +480,26 @@
 <section id="projects" style="background:var(--bg-card-alt);">
     <div class="container">
         <h2 class="text-center mb-10 fade-up">Featured Projects</h2>
-        <div class="carousel-wrapper">
-            <button class="carousel-arrow left" aria-label="Scroll left" type="button" id="carouselLeftBtn">
-                <svg width="22" height="22" fill="none" viewBox="0 0 22 22"><path d="M14.5 18L8.5 11L14.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="carousel-cards" id="carouselCards" tabindex="0" aria-live="polite">
+        <div class="carousel-container">
+            <div class="carousel-track">
                 <!-- Cards will be rendered by JS -->
             </div>
-            <button class="carousel-arrow right" aria-label="Scroll right" type="button" id="carouselRightBtn">
-                <svg width="22" height="22" fill="none" viewBox="0 0 22 22"><path d="M7.5 4L13.5 11L7.5 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <button class="carousel-button prev" aria-label="Scroll left" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
             </button>
+            <button class="carousel-button next" aria-label="Scroll right" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+            <div class="carousel-indicators">
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+            </div>
         </div>
     </div>
 </section>
@@ -613,27 +561,14 @@
     </div>
 </section>
 
-<!-- Contact Section -->
-<section id="contact" style="background:var(--bg-card-alt);">
-    <div class="container max-w-xl" style="max-width:36rem;">
-        <h2 class="text-center mb-8 fade-up">Contact</h2>
-        <form class="contact-form fade-up" id="contactForm" autocomplete="off">
-            <input type="text" name="name" required placeholder="Your Name" autocomplete="off" />
-            <input type="email" name="email" required placeholder="Your Email" autocomplete="off" />
-            <textarea name="message" required placeholder="Your Message" rows="4" autocomplete="off"></textarea>
-            <button type="submit" class="cta-btn">Send Message</button>
-            <div class="contact-confirm" id="contactConfirm">Thank you! Your message has been sent.</div>
-        </form>
-        <div class="socials">
-            <a href="https://github.com/ebor62" target="_blank" rel="noopener" aria-label="GitHub">
-                <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#1E293B"/><path d="M16 8a8 8 0 00-2.5 15.6c.4.1.5-.2.5-.4v-1.4c-2 .4-2.5-.5-2.7-1-.1-.3-.5-1-.8-1.2-.3-.2-.7-.7 0-.7.6 0 1 .6 1.1.8.7 1.1 1.8.8 2.2.6.1-.5.3-.8.5-1-1.8-.2-3.7-.9-3.7-4a3.1 3.1 0 01.8-2.2c-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 014 0c1.5-1 2.2-.8 2.2-.8.5 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.2 0 3.1-1.9 3.8-3.7 4 .3.3.6.7.6 1.4v2c0 .2.1.5.5.4A8 8 0 0016 8z" fill="#F3F4F6"/></svg>
-            </a>
-            <a href="https://linkedin.com/in/nathan-ferhart" target="_blank" rel="noopener" aria-label="LinkedIn">
-                <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#1E293B"/><path d="M10 12h4v2h.1c.6-1.1 2-2.2 4.1-2.2 4.4 0 5.2 2.9 5.2 6.6V24h-4v-5.2c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V24h-4v-12zm-2 0h4v12h-4V12zm2-6a2 2 0 110 4 2 2 0 010-4z" fill="#60A5FA"/></svg>
-            </a>
-        </div>
+<!-- Email Footer -->
+<footer style="background:var(--bg-card-alt);padding:2.5rem 0 2.5rem 0;text-align:center;">
+    <div class="container" style="max-width:36rem;">
+        <span style="color:var(--steel);font-size:1.1rem;">
+            Contact: <a href="mailto:nferhart@gmail.com" style="color:var(--blue);text-decoration:underline;">nferhart@gmail.com</a>
+        </span>
     </div>
-</section>
+</footer>
 <script>
     // Fade-up on scroll
     function fadeInOnScroll() {
@@ -649,7 +584,7 @@
     window.addEventListener('scroll', fadeInOnScroll);
     window.addEventListener('resize', fadeInOnScroll);
 
-    // Carousel Data
+    // Carousel Data (adapted to your projects)
     var carouselProjects = [
         {
             img: "https://placehold.co/320x160/1e293b/60a5fa?text=Shop+Class",
@@ -657,12 +592,11 @@
             title: "Shop Class File Organizer",
             desc: "Local Dropbox-style file system for high school woodshop. Dockerized, fast to deploy offline. Clean frontend with backend integration.",
             tags: [
-                { text: "React", class: "react" },
-                { text: "Docker", class: "docker" },
-                { text: "Node.js", class: "node" }
+                "React",
+                "Docker",
+                "Node.js"
             ],
-            badge: { text: "Deployed", color: "#4ade80" },
-            link: null
+            link: "https://codepen.io/ebor62/pen/jEOEbwR"
         },
         {
             img: "https://placehold.co/320x160/1e293b/60a5fa?text=Hack+Centauri",
@@ -670,12 +604,11 @@
             title: "Hack Centauri",
             desc: "Galactic-themed hackathon site with animated transitions and custom theming.",
             tags: [
-                { text: "React", class: "react" },
-                { text: "Framer Motion", class: "framer-motion" },
-                { text: "Theming", class: "theming" }
+                "React",
+                "Framer Motion",
+                "Theming"
             ],
-            badge: null,
-            link: { url: "https://ebor62.github.io/HackCentauri/", text: "Live Site" }
+            link: "https://ebor62.github.io/HackCentauri/"
         },
         {
             img: "https://placehold.co/320x160/1e293b/60a5fa?text=Submersion",
@@ -683,201 +616,343 @@
             title: "Submersion",
             desc: "Underwater-themed interactive event site. Reversible animations, glowing pulse, parallax.",
             tags: [
-                { text: "React", class: "react" },
-                { text: "Framer Motion", class: "framer-motion" },
-                { text: "Parallax", class: "parallax" }
+                "React",
+                "Framer Motion",
+                "Parallax"
             ],
-            badge: null,
-            link: { url: "https://submersion.pages.dev/", text: "Live Site" }
+            link: "submersion.pages.dev"
         },
         {
-            img: "https://placehold.co/320x160/1e293b/60a5fa?text=Synth+Rack",
-            alt: "Custom Synth Rack",
-            title: "Custom Synth Rack",
-            desc: "Foam-prototyped, CNC-cut wood rack for small bedrooms. Built using design/fabrication skills from internship.",
+            img: "https://placehold.co/320x160/1e293b/60a5fa?text=Alpha+Centauri",
+            alt: "Alpha Centauri Web Model",
+            title: "Alpha Centauri Web Model",
+            desc: "Modeled a web version of the Alpha Centauri system using WebPython. Interactive, educational, and visually accurate.",
             tags: [
-                { text: "Design", class: "design" },
-                { text: "Fabrication", class: "fabrication" },
-                { text: "CNC", class: "cnc" }
-            ],
-            badge: { text: "Prototype", color: "var(--steel)" },
-            link: null
+                "WebPython",
+                "Astronomy",
+                "Visualization"
+            ]
+            // No link for this card
         }
     ];
 
-    var carouselIndex = 0;
-    var carouselAnimating = false;
-    var carouselTimeout = null;
-    var lastDirection = 0;
+    // Render cards
+    function renderFuturisticCarousel() {
+        const track = document.querySelector(".carousel-track");
+        const indicators = document.querySelectorAll(".carousel-indicators .indicator");
+        track.innerHTML = "";
+        indicators.forEach((ind, i) => {
+            ind.classList.remove("active");
+            if (i === 0) ind.classList.add("active");
+        });
 
-    // Intuitive carousel animation logic
-    function renderCarousel(current, direction) {
-        var cards = document.getElementById('carouselCards');
-        if (!cards) return;
-        cards.innerHTML = '';
-        var n = carouselProjects.length;
-        var prev = (current - 1 + n) % n;
-        var next = (current + 1) % n;
-
-        // Track previous index for animation
-        var prevIndex = renderCarousel._prevIndex !== undefined ? renderCarousel._prevIndex : current;
-        var prevDir = direction || 0;
-
-        for (var i = 0; i < n; i++) {
-            var p = carouselProjects[i];
-            var card = document.createElement('div');
-            card.className = 'carousel-card';
-            card.setAttribute('tabindex', i === current ? '0' : '-1');
-            card.setAttribute('aria-label', p.title + (i === current ? ' (current project)' : ''));
+        carouselProjects.forEach((p, i) => {
+            const card = document.createElement("div");
+            card.className = "carousel-card";
+            card.setAttribute("tabindex", "0");
+            let titleHtml;
+            if (p.link) {
+                titleHtml = `<a href="${p.link}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline;display:inline-block;"><h3 class="card-title text-xl font-bold" data-text="${p.title}" style="margin:0;">${p.title}</h3></a>`;
+            } else {
+                titleHtml = `<h3 class="card-title text-xl font-bold" data-text="${p.title}">${p.title}</h3>`;
+            }
             card.innerHTML = `
-                <div style="width:100%;height:10rem;background:var(--graphite);border-radius:0.75rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-                    <img src="${p.img}" alt="${p.alt}" class="object-cover" style="width:100%;height:100%;" draggable="false" />
+                <div class="card-image-container">
+                    <img src="${p.img}" alt="${p.alt}" class="card-image" draggable="false" />
                 </div>
-                <h3 class="mb-2">${p.title}</h3>
-                <p class="text-sm mb-3" style="color:var(--steel);">${p.desc}</p>
-                <div style="margin-bottom:0.5rem;">
-                    ${p.tags.map(t => `<span class="tag ${t.class}">${t.text}</span>`).join('')}
+                <div class="card-content">
+                    ${titleHtml}
+                    <p class="card-description">${p.desc}</p>
                 </div>
-                ${p.link ? `<a href="${p.link.url}" target="_blank" rel="noopener" class="text-xs text-blue font-medium hover:underline" style="color:var(--blue);font-weight:600;text-decoration:none;">${p.link.text}</a>` : ''}
-                ${p.badge ? `<span class="text-xs" style="color:${p.badge.color};font-weight:600;">${p.badge.text}</span>` : ''}
+                <div class="tech-details">
+                    ${p.tags.map(tag => `<div class="tech-tag">${tag}</div>`).join("")}
+                </div>
             `;
-
-            // Assign position classes for animation
-            if (i === current) {
-                card.classList.add('active');
-                card.style.transform = 'translate(-50%, -50%) scale(1)';
-                card.style.left = '50%';
-                card.style.zIndex = 10;
-            } else if (i === prev) {
-                card.classList.add('prev');
-                card.style.transform = 'translate(-120%, -50%) scale(0.9)';
-                card.style.left = '50%';
-                card.style.zIndex = 2;
-            } else if (i === next) {
-                card.classList.add('next');
-                card.style.transform = 'translate(20%, -50%) scale(0.9)';
-                card.style.left = '50%';
-                card.style.zIndex = 2;
-            } else {
-                card.classList.add('far');
-                card.style.opacity = 0;
-                card.style.pointerEvents = 'none';
-                card.style.zIndex = 0;
-            }
-
-            // Only allow click for prev/next
-            if (i === prev) {
-                card.addEventListener('click', function() { moveCarousel(-1); });
-                card.style.cursor = 'pointer';
-            } else if (i === next) {
-                card.addEventListener('click', function() { moveCarousel(1); });
-                card.style.cursor = 'pointer';
-            } else {
-                card.style.cursor = i === current ? 'default' : 'auto';
-            }
-
-            // Animation classes for intuitive sliding
-            if (direction !== 0) {
-                if (i === current) {
-                    if (direction === 1) {
-                        card.classList.add('slide-left-in');
-                    } else if (direction === -1) {
-                        card.classList.add('slide-right-in');
-                    }
-                }
-                if (i === prevIndex) {
-                    if (direction === 1) {
-                        card.classList.add('slide-left-out');
-                    } else if (direction === -1) {
-                        card.classList.add('slide-right-out');
-                    }
-                }
-            }
-
-            cards.appendChild(card);
-        }
-        renderCarousel._prevIndex = current;
+            track.appendChild(card);
+        });
     }
 
-    function moveCarousel(dir) {
-        if (carouselAnimating) return;
-        carouselAnimating = true;
-        var n = carouselProjects.length;
-        var prevIndex = carouselIndex;
-        carouselIndex = (carouselIndex + dir + n) % n;
-        lastDirection = dir;
-        renderCarousel(carouselIndex, dir);
-        clearTimeout(carouselTimeout);
-        carouselTimeout = setTimeout(function() {
-            carouselAnimating = false;
-            // After animation, render static state (no animation classes)
-            renderCarousel(carouselIndex, 0);
-        }, 400);
-    }
-
-    window.addEventListener('DOMContentLoaded', function() {
+    // Carousel logic (movement/animation only)
+    document.addEventListener("DOMContentLoaded", function() {
         fadeInOnScroll();
+        renderFuturisticCarousel();
 
-        // Contact form confirmation
-        var form = document.getElementById('contactForm');
-        var confirm = document.getElementById('contactConfirm');
-        if (form && confirm) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                confirm.classList.add('visible');
-                setTimeout(function() {
-                    confirm.classList.remove('visible');
-                }, 2200);
-                form.reset();
-            });
-        }
         // Keyboard focus for tiles/cards
         document.querySelectorAll('.tile, .card').forEach(function(el) {
             el.addEventListener('focus', function() { el.classList.add('focus-outline'); });
             el.addEventListener('blur', function() { el.classList.remove('focus-outline'); });
         });
 
-        // Carousel logic
-        renderCarousel(carouselIndex, 0);
+        // --- Carousel Animation/Interaction ---
+        const track = document.querySelector(".carousel-track");
+        const cards = Array.from(track.children);
+        const nextButton = document.querySelector(".carousel-button.next");
+        const prevButton = document.querySelector(".carousel-button.prev");
+        const container = document.querySelector(".carousel-container");
+        const indicators = document.querySelectorAll(".indicator");
 
-        var leftBtn = document.getElementById('carouselLeftBtn');
-        var rightBtn = document.getElementById('carouselRightBtn');
-        var cards = document.getElementById('carouselCards');
+        let currentIndex = 0;
+        let cardWidth = cards[0].offsetWidth;
+        let cardMargin = parseInt(window.getComputedStyle(cards[0]).marginRight) * 2;
 
-        leftBtn.addEventListener('click', function() { moveCarousel(-1); });
-        rightBtn.addEventListener('click', function() { moveCarousel(1); });
+        // Debounce function
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this,
+                    args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
 
-        // Keyboard navigation for carousel
-        cards.addEventListener('keydown', function(e) {
-            if (carouselAnimating) return;
-            if (e.key === 'ArrowLeft') {
-                moveCarousel(-1);
-            } else if (e.key === 'ArrowRight') {
-                moveCarousel(1);
+        // Initialize carousel
+        function initializeCarousel() {
+            cardWidth = cards[0].offsetWidth;
+            cardMargin = parseInt(window.getComputedStyle(cards[0]).marginRight) * 2;
+            // Center the initial card
+            const initialOffset = container.offsetWidth / 2 - cardWidth / 2;
+            track.style.transform = `translateX(${initialOffset}px)`;
+            updateCarousel();
+        }
+
+        // Update carousel state
+        function updateCarousel() {
+            cards.forEach((card, index) => {
+                card.classList.remove(
+                    "is-active",
+                    "is-prev",
+                    "is-next",
+                    "is-far-prev",
+                    "is-far-next"
+                );
+                if (index === currentIndex) {
+                    card.classList.add("is-active");
+                } else if (index === currentIndex - 1) {
+                    card.classList.add("is-prev");
+                } else if (index === currentIndex + 1) {
+                    card.classList.add("is-next");
+                } else if (index < currentIndex - 1) {
+                    card.classList.add("is-far-prev");
+                } else if (index > currentIndex + 1) {
+                    card.classList.add("is-far-next");
+                }
+            });
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle("active", index === currentIndex);
+            });
+        }
+
+        // Move to a specific slide
+        function moveToSlide(targetIndex) {
+            if (targetIndex < 0 || targetIndex >= cards.length) {
+                return;
+            }
+            const amountToMove = targetIndex * (cardWidth + cardMargin);
+            const containerCenter = container.offsetWidth / 2;
+            const cardCenter = cardWidth / 2;
+            const targetTranslateX = containerCenter - cardCenter - amountToMove;
+            track.style.transform = `translateX(${targetTranslateX - 25}px)`;
+            currentIndex = targetIndex;
+            updateCarousel();
+
+            // Subtle flash effect
+            const flashEffect = document.createElement("div");
+            flashEffect.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(56, 189, 248, 0.1);
+                z-index: 30;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            `;
+            container.appendChild(flashEffect);
+            setTimeout(() => {
+                flashEffect.style.opacity = "0.3";
+                setTimeout(() => {
+                    flashEffect.style.opacity = "0";
+                    setTimeout(() => {
+                        container.removeChild(flashEffect);
+                    }, 200);
+                }, 100);
+            }, 10);
+        }
+
+        // Event Listeners
+        nextButton.addEventListener("click", () => {
+            const nextIndex = currentIndex + 1;
+            if (nextIndex < cards.length) {
+                moveToSlide(nextIndex);
+            }
+        });
+        prevButton.addEventListener("click", () => {
+            const prevIndex = currentIndex - 1;
+            if (prevIndex >= 0) {
+                moveToSlide(prevIndex);
+            }
+        });
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener("click", () => {
+                moveToSlide(index);
+            });
+        });
+
+        // Swipe Functionality
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID;
+
+        track.addEventListener("mousedown", dragStart);
+        track.addEventListener("touchstart", dragStart, { passive: true });
+        track.addEventListener("mousemove", drag);
+        track.addEventListener("touchmove", drag, { passive: true });
+        track.addEventListener("mouseup", dragEnd);
+        track.addEventListener("mouseleave", dragEnd);
+        track.addEventListener("touchend", dragEnd);
+
+        function dragStart(event) {
+            isDragging = true;
+            startPos = getPositionX(event);
+            const transformMatrix = window
+                .getComputedStyle(track)
+                .getPropertyValue("transform");
+            if (transformMatrix !== "none") {
+                currentTranslate = parseInt(transformMatrix.split(",")[4]);
+            } else {
+                currentTranslate = 0;
+            }
+            prevTranslate = currentTranslate;
+            track.style.transition = "none";
+            animationID = requestAnimationFrame(animation);
+            track.style.cursor = "grabbing";
+        }
+        function drag(event) {
+            if (isDragging) {
+                const currentPosition = getPositionX(event);
+                const moveX = currentPosition - startPos;
+                currentTranslate = prevTranslate + moveX;
+            }
+        }
+        function animation() {
+            if (!isDragging) return;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+            requestAnimationFrame(animation);
+        }
+        function dragEnd() {
+            if (!isDragging) return;
+            cancelAnimationFrame(animationID);
+            isDragging = false;
+            const movedBy = currentTranslate - prevTranslate;
+            track.style.transition = "transform 0.75s cubic-bezier(0.21, 0.61, 0.35, 1)";
+            track.style.cursor = "grab";
+            const threshold = cardWidth / 3.5;
+            if (movedBy < -threshold && currentIndex < cards.length - 1) {
+                moveToSlide(currentIndex + 1);
+            } else if (movedBy > threshold && currentIndex > 0) {
+                moveToSlide(currentIndex - 1);
+            } else {
+                moveToSlide(currentIndex);
+            }
+        }
+        function getPositionX(event) {
+            return event.type.includes("mouse") ? event.pageX : event.touches[0].clientX;
+        }
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                if (currentIndex < cards.length - 1) {
+                    moveToSlide(currentIndex + 1);
+                }
+            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                if (currentIndex > 0) {
+                    moveToSlide(currentIndex - 1);
+                }
             }
         });
 
-        // Allow focus on center card for accessibility
-        cards.addEventListener('focus', function() {
-            var center = cards.querySelector('.carousel-card.active');
-            if (center) center.focus();
+        // Window resize handler
+        window.addEventListener(
+            "resize",
+            debounce(() => {
+                initializeCarousel();
+                moveToSlide(currentIndex);
+            }, 250)
+        );
+
+        // Add automatic card hover effects (glitch/floating removed for minimalism)
+        cards.forEach((card) => {
+            card.addEventListener("mouseenter", function () {
+                // No extra effect, keep minimal
+            });
+            card.addEventListener("mouseleave", function () {
+                // No extra effect, keep minimal
+            });
         });
 
-        // Optional: swipe support for mobile
-        var startX = null;
-        cards.addEventListener('touchstart', function(e) {
-            if (e.touches.length === 1) startX = e.touches[0].clientX;
+        // Observe active card changes (no extra animation)
+        let previousActive = null;
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === "class") {
+                    const target = mutation.target;
+                    if (target.classList.contains("is-active") && target !== previousActive) {
+                        previousActive = target;
+                        // No extra animation
+                    }
+                }
+            });
         });
-        cards.addEventListener('touchend', function(e) {
-            if (startX === null) return;
-            var endX = e.changedTouches[0].clientX;
-            var dx = endX - startX;
-            if (Math.abs(dx) > 40) {
-                if (dx < 0) moveCarousel(1);
-                else moveCarousel(-1);
+        cards.forEach((card) => {
+            observer.observe(card, { attributes: true });
+        });
+
+        // Keyboard navigation animation feedback
+        document.addEventListener("keydown", (e) => {
+            if (
+                e.key === "ArrowRight" ||
+                e.key === "ArrowLeft" ||
+                e.key === "ArrowUp" ||
+                e.key === "ArrowDown"
+            ) {
+                const button =
+                    e.key === "ArrowRight" || e.key === "ArrowDown" ? nextButton : prevButton;
+                button.style.transform = "translateY(-50%) scale(1.1)";
+                button.style.boxShadow = "0 0 20px var(--blue)";
+                setTimeout(() => {
+                    button.style.transform = "translateY(-50%) scale(1)";
+                    button.style.boxShadow = "";
+                }, 200);
             }
-            startX = null;
         });
+
+        // Indicator pulse
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener("click", function () {
+                this.style.transform = "scale(1.15)";
+                this.style.boxShadow = "0 0 10px var(--blue)";
+                setTimeout(() => {
+                    this.style.transform = "";
+                    this.style.boxShadow = "";
+                }, 300);
+            });
+        });
+
+        // Initialize everything
+        initializeCarousel();
+        moveToSlide(0);
     });
 </script>
 </body>
